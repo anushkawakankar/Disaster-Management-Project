@@ -27,37 +27,34 @@ textarea {
 
 <!-- Navbar -->
 <div class="w3-top">
-  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+  <div class="w3-bar w3-#800000 w3-card w3-left-align w3-large">
 
-    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-blue" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
     <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
-    <a href="/about" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" >Link 1</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Link 2</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Link 3</a>
+    <a href="/about" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" >Mythbuster</a>
+    <a href="adming" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Admin</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Gallery</a>
     <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Link 4</a>
   </div>
 
   <!-- Navbar on small screens -->
   <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 4</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Factchecker</a>
+    <a href="admin" class="w3-bar-item w3-button w3-padding-large">Admin</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Gallery</a>
   </div>
 </div>
 
 <!-- Header -->
-<header class="w3-container w3-red w3-center" style="padding:128px 16px">
-  <h1 class="w3-margin w3-jumbo">START PAGE</h1>
-  <p class="w3-xlarge">Template by w3.css</p>
-  <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Get Started</button>
-  <p><strong>Tip:</strong> Use the resize property to prevent textareas from being resized (disable the "grabber" in the bottom right corner):</p>
+<header class="w3-container w3-grey w3-center" style="padding:128px 16px">
+  <h1 class="w3-margin w3-jumbo">Enter a Query</h1>
+  <p class="w3-xlarge">We will check it for you :)</p>
 
 <form action="/submit" class="submit-review" id="textform" method="post">
-    <label for="exampleReviewText">Query</label>
+    <label for="exampleReviewText"></label>
     <textarea class="form-control" id="exampleReviewText" name="content" rows="4" cols="50" placeholder="Write your query here...(Max 2000 characters)" maxlength="2000" style="margin: 0px; width: 518px; height: 235px;" required="required"></textarea>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+    <br><br>
+  <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="submit">Submit</button>
 </form>
 </header>
 

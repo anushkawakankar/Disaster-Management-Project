@@ -58,6 +58,7 @@ def demo():
 
 @app.route('/submit', methods=['POST', 'GET'])
 def submit_review():
+    global mythDict
     post_content = request.form["content"]
     print(post_content)
     undecidedDict[post_content] = "undecided"
