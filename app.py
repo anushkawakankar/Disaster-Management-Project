@@ -16,10 +16,9 @@ import os
 # App Config.
 #----------------------------------------------------------------------------#
 
-with open('BaseCases.txt', 'r') as inf:
-    mythDict = eval(inf.read())
-inf.close()
 
+undecidedDict = {}
+mythDict = {}
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -51,6 +50,9 @@ def login_required(test):
 
 @app.route('/demo')
 def demo():
+    with open('BaseCases.txt', 'r') as inf:
+        mythDict = eval(inf.read())
+    inf.close()
     return render_template('layouts/untitled.html', key_list=list(mythDict.keys()), val_list=list(mythDict.values()), len = len(mythDict))
 
 
@@ -58,24 +60,43 @@ def demo():
 def submit_review():
     post_content = request.form["content"]
     print(post_content)
-    mythDict[post_content] = "undecided"
-    new_dict = open("BaseCases.txt", 'w')
-    new_dict.write(str(mythDict))
+    undecidedDict[post_content] = "undecided"
+    new_dict = open("UndecidedCases.txt", 'w')
+    new_dict.write(str(undecidedDict))
     new_dict.close()
     return render_template('layouts/untitled.html', key_list=list(mythDict.keys()), val_list=list(mythDict.values()), len = len(mythDict))
 
 
 @app.route('/admin')
 def admin():
-    return render_template('layouts/admin.html',  key_list=list(mythDict.keys()), val_list=list(mythDict.values()), len = len(mythDict))
+    with open('UndecidedCases.txt', 'r') as inf2:
+        undecidedDict = eval(inf2.read())
+    inf2.close()
+    return render_template('layouts/admin.html',  key_list=list(undecidedDict.keys()), val_list=list(undecidedDict.values()), len = len(undecidedDict))
 
 @app.route('/submitExp', methods=['POST', 'GET'])
 def submit_exp():
-    explaination = request.form["exp"]
+    explanation = request.form["exp"]
     num = request.form["bdh"]
-    print(explaination)
+    print(explanation)
     print(num)
-    return render_template('layouts/admin.html',  key_list=list(mythDict.keys()), val_list=list(mythDict.values()), len = len(mythDict))
+    with open('BaseCases.txt', 'r') as inf:
+        mythDict = eval(inf.read())
+    inf.close()
+    with open('UndecidedCases.txt', 'r') as inf2:
+        undecidedDict = eval(inf2.read())
+    inf2.close()
+    unKey_list = list(undecidedDict.keys())
+    print(len(unKey_list))
+    mythDict[unKey_list[int(num)-1]] = explanation
+    new_dict = open("BaseCases.txt", 'w')
+    new_dict.write(str(mythDict))
+    new_dict.close()
+    undecidedDict.pop(unKey_list[int(num)-1])
+    new_dict = open("UndecidedCases.txt", 'w')
+    new_dict.write(str(undecidedDict))
+    new_dict.close()
+    return render_template('layouts/admin.html',  key_list=list(undecidedDict.keys()), val_list=list(undecidedDict.values()), len = len(undecidedDict))
 
 
 @app.route('/')
