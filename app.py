@@ -65,6 +65,9 @@ def submit_review():
     new_dict = open("UndecidedCases.txt", 'w')
     new_dict.write(str(undecidedDict))
     new_dict.close()
+    with open('BaseCases.txt', 'r') as inf:
+        mythDict = eval(inf.read())
+    inf.close()
     return render_template('layouts/untitled.html', key_list=list(mythDict.keys()), val_list=list(mythDict.values()), len = len(mythDict))
 
 
