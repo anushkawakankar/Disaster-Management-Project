@@ -56,15 +56,15 @@ textarea {
   <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="submit">Submit</button>
 </form>
 </header>
-{%for i in range(0, len, 2)%}        
+{%for i in range(len)%}        
 
 <div class="w3-row-padding w3-padding-64 w3-container">
   <div class="w3-content">
     <div class="w3-twothird">
-      <h1>Claim #{{i+1}}</h1>
-      <h5 class="w3-padding-32">{{key_list[i]}}</h5>
+      <h1>Search Result #{{i+1}}</h1>
+      <h5 class="w3-padding-32">{{key_list[search_result[i]]}}</h5>
 
-      <p class="w3-text-grey">{{val_list[i]}}</p>
+      <p class="w3-text-grey">{{val_list[search_result[i]]}}</p>
     </div>
 
     <div class="w3-third w3-center">
@@ -74,21 +74,8 @@ textarea {
 </div>
 
 <!-- Second Grid -->
-<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
-  <div class="w3-content">
-    <div class="w3-third w3-center">
-      <i class="w3-padding-64 w3-margin-right"><span style='font-size:200px;'>&#9758;</span></i>
-    </div>
-
-    <div class="w3-twothird">
-      <h1>Claim #{{i+2}}</h1>
-      <h5 class="w3-padding-32">{{key_list[i+1]}}</h5>
-
-      <p class="w3-text-grey">{{val_list[i+1]}}</p>
-    </div>
-  </div>
-</div>
 {% endfor %}
+
 <div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
     <h1 class="w3-margin w3-xlarge">There is always light at the end of a tunnel</h1>
 </div>
