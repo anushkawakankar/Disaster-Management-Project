@@ -37,6 +37,7 @@ import string
 
 undecidedDict = {}
 mythDict = {}
+currQuery = []
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -158,16 +159,29 @@ def demo():
     inf.close()
     return render_template('layouts/untitled.html', key_list=list(mythDict.keys()), val_list=list(mythDict.values()), len=len(mythDict))
 
+@app.route('/manual_eval')
+def manual_eval():
+    print("ENTERING THE FUNCTION\n")
+    print(currQuery)
+    undecidedDict[currQuery[0]] = "undecided"
+    new_dict = open("UndecidedCases.txt", 'w')
+    new_dict.write(str(undecidedDict))
+    new_dict.close()
+    currQuery.pop()
+    return redirect('/demo')
+
 
 @app.route('/submit', methods=['POST', 'GET'])
 def submit_review():
     global mythDict
     post_content = request.form["content"]
-    print(post_content)
-    undecidedDict[post_content] = "undecided"
-    new_dict = open("UndecidedCases.txt", 'w')
-    new_dict.write(str(undecidedDict))
-    new_dict.close()
+    # print(post_content)
+    currQuery.append(post_content)  
+    # print(currQuery)  
+    # undecidedDict[post_content] = "undecided"
+    # new_dict = open("UndecidedCases.txt", 'w')
+    # new_dict.write(str(undecidedDict))
+    # new_dict.close()
 
     with open('BaseCases.txt', 'r') as inf:
         mythDict = eval(inf.read())
