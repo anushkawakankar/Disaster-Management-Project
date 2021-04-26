@@ -1,1 +1,1 @@
-{'The cyclone had a wind speed of 10 km/h.': 'undecided', 'hello i am anushka': 'undecided'}
+{}

@@ -163,11 +163,12 @@ def demo():
 def manual_eval():
     print("ENTERING THE FUNCTION\n")
     print(currQuery)
-    undecidedDict[currQuery[0]] = "undecided"
+    n = len(currQuery)
+    undecidedDict[currQuery[n-1]] = "undecided"
     new_dict = open("UndecidedCases.txt", 'w')
     new_dict.write(str(undecidedDict))
     new_dict.close()
-    currQuery.pop()
+    currQuery.clear()
     return redirect('/demo')
 
 
@@ -194,7 +195,7 @@ def submit_review():
         new_list.append(key_list[i] + ' ' + val_list[i])
         
     print(new_list)
-    result = wanker(key_list, post_content)
+    result = wanker(new_list, post_content)
 
     return render_template('layouts/search.html', key_list=list(mythDict.keys()), val_list=list(mythDict.values()), len=len(result), search_result = result)
 
