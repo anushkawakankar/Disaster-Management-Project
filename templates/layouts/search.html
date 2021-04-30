@@ -16,6 +16,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 .w3-third {color: #95103b;}
 .w3-container2 { background-color: #a2113f;}
 .fa-anchor,.fa-coffee {font-size:200px}
+.w3-xlarge { align-items: center;}
 textarea {
   width: 100%;
   height: 150px;
@@ -27,30 +28,8 @@ textarea {
   font-size: 16px;
   resize: none;
 }
-.w3-custom,.w3-hover-custom:hover{color:#fff!important;background-color:#95103B!important}
 </style>
 <body>
-  <div class="wrapper row0">
-    <header id="header" class="hoc clear"> 
-      <!-- ################################################################################################ -->
-      <div id="logo" class="one_quarter first">
-        <h1><a href="/templates/wavefire.html"><span>DMP</span>roject</a></h1>
-      </div>
-      <div class="three_quarter">
-        <ul class="nospace clear">
-          <li class="one_third first">
-            <div class="block clear"><a href="#"><i class="fas fa-phone"></i></a> <span><strong>Give us a call:</strong> +91 (123) 456 7890</span></div>
-          </li>
-          <li class="one_third">
-            <div class="block clear"><a href="#"><i class="fas fa-envelope"></i></a> <span><strong>Send us a mail:</strong> support@dmproject.com</span></div>
-          </li>
-          <li class="one_third">
-          </li>
-        </ul>
-      </div>
-      <!-- ################################################################################################ -->
-    </header>
-  </div>
 
 <!-- Navbar -->
 <div class="wrapper row1">
@@ -78,15 +57,15 @@ textarea {
   <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" type="submit">Submit</button>
 </form>
 </header>
-{%for i in range(0, len, 2)%}        
+{%for i in range(len)%}        
 
 <div class="w3-row-padding w3-padding-64 w3-container">
   <div class="w3-content">
     <div class="w3-twothird">
-      <h1>Claim #{{i+1}}</h1>
-      <h5 class="w3-padding-32">{{key_list[i]}}</h5>
+      <h1>Search Result #{{i+1}}</h1>
+      <h5 class="w3-padding-32">{{key_list[search_result[i]]}}</h5>
 
-      <p class="w3-text-grey">{{val_list[i]}}</p>
+      <p class="w3-text-grey">{{val_list[search_result[i]]}}</p>
     </div>
 
     <div class="w3-third w3-center">
@@ -95,22 +74,15 @@ textarea {
   </div>
 </div>
 
-<!-- Second Grid -->
-<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
-  <div class="w3-content">
-    <div class="w3-third w3-center">
-      <i class="w3-padding-64 w3-margin-right"><span style='font-size:200px;'>&#9758;</span></i>
-    </div>
-
-    <div class="w3-twothird">
-      <h1>Claim #{{i+2}}</h1>
-      <h5 class="w3-padding-32">{{key_list[i+1]}}</h5>
-
-      <p class="w3-text-grey">{{val_list[i+1]}}</p>
-    </div>
-  </div>
-</div>
 {% endfor %}
+
+<div class="w3-row-padding w3-padding-64 w3-container" style = "text-align: center;">
+  <p class="w3-xlarge" style=" color: black; ">Do you want to submit your query for manual evaluations?</p>
+  <form action="/manual_eval" class="manual_eval" id="textform">
+    <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" style= "align-items: center;" type="submit">Submit</button>
+  </form>
+</div>
+
 <div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
     <h1 class="w3-margin w3-xlarge">There is always light at the end of a tunnel</h1>
 </div>

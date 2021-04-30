@@ -1,1 +1,1 @@
-{"The cyclone caused an earthquake" : "undecided"}
+{'the cyclone occurred on june 1st': 'undecided', 'How many people died': 'undecided'}

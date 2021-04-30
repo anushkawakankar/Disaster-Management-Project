@@ -11,15 +11,33 @@ import logging
 from logging import Formatter, FileHandler
 from forms import *
 import os
+from collections import defaultdict
+from nltk.corpus import stopwords
+from nltk.stem.porter import PorterStemmer
+from nltk.tokenize import word_tokenize
+from tqdm import tqdm
+from xml.dom import minidom
+from collections import Counter
+import ast
+import os
+import glob
+import json
+import nltk
+import numpy as np
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('stopwords')
+nltk.download('wordnet')
+import string
 
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
 
-with open('BaseCases.txt', 'r') as inf:
-    mythDict = eval(inf.read())
-inf.close()
 
+undecidedDict = {}
+mythDict = {}
+currQuery = []
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -49,33 +67,170 @@ def login_required(test):
 #----------------------------------------------------------------------------#
 
 
+def preprocess(text):
+    # print(text)
+    tokens = word_tokenize(text)
+    tokens = [w.lower() for w in tokens]
+    # print(tokens)
+    table = str.maketrans('', '', string.punctuation)
+    stripped = [w.translate(table) for w in tokens]
+    words = [word for word in stripped if word.isalpha()]
+    stop_words = set(stopwords.words('english'))
+    words = [w for w in words if not w in stop_words]
+    porter = PorterStemmer()
+    stemmed = [porter.stem(word) for word in words]
+    return stemmed
+
+
+def wanker(dataset, query):
+    DF = {}
+    i = 0
+    for text in dataset:
+        i = i + 1
+        try:
+            tokens = preprocess(text)
+
+            for w in tokens:
+                try:
+                    DF[w].add(i)
+                except:
+                    DF[w] = {i}
+        except:
+            pass
+    for i in DF:
+        DF[i] = len(DF[i])
+
+    doc = 0
+    tf_idf = {}
+
+    for text in dataset:
+
+        tokens = preprocess(text)
+
+        counter = Counter(tokens)
+        words_count = len(tokens)
+
+        for token in np.unique(tokens):
+
+            tf = counter[token] / words_count
+            df = DF[token]
+            idf = np.log((len(dataset) + 1) / (df + 1))
+
+            tf_idf[doc, token] = tf * idf
+            # print(doc,token,tf*idf)
+
+        doc += 1
+
+    tokens = preprocess(query)
+
+    print("Matching Score")
+    print("\nQuery:", query)
+    print("")
+    print(tokens)
+
+    query_weights = {}
+
+    for key in tf_idf:
+
+        if key[1] in tokens:
+            try:
+                query_weights[key[0]] += tf_idf[key]
+            except:
+                query_weights[key[0]] = tf_idf[key]
+
+    query_weights = sorted(query_weights.items(),
+                           key=lambda x: x[1], reverse=True)
+    print(len(query_weights))
+    print("")
+
+    l = []
+
+    for i in query_weights[:3]:
+        l.append(i[0])
+
+    print(l)
+    return l
+
+
 @app.route('/demo')
 def demo():
-    return render_template('layouts/untitled.html', key_list=list(mythDict.keys()), val_list=list(mythDict.values()), len = len(mythDict))
+    with open('BaseCases.txt', 'r') as inf:
+        mythDict = eval(inf.read())
+    inf.close()
+    return render_template('layouts/untitled.html', key_list=list(mythDict.keys()), val_list=list(mythDict.values()), len=len(mythDict))
+
+@app.route('/manual_eval')
+def manual_eval():
+    print("ENTERING THE FUNCTION\n")
+    print(currQuery)
+    n = len(currQuery)
+    undecidedDict[currQuery[n-1]] = "undecided"
+    new_dict = open("UndecidedCases.txt", 'w')
+    new_dict.write(str(undecidedDict))
+    new_dict.close()
+    currQuery.clear()
+    return redirect('/demo')
 
 
 @app.route('/submit', methods=['POST', 'GET'])
 def submit_review():
+    global mythDict
     post_content = request.form["content"]
-    print(post_content)
-    mythDict[post_content] = "undecided"
-    new_dict = open("BaseCases.txt", 'w')
-    new_dict.write(str(mythDict))
-    new_dict.close()
-    return render_template('layouts/untitled.html', key_list=list(mythDict.keys()), val_list=list(mythDict.values()), len = len(mythDict))
+    # print(post_content)
+    currQuery.append(post_content)  
+    # print(currQuery)  
+    # undecidedDict[post_content] = "undecided"
+    # new_dict = open("UndecidedCases.txt", 'w')
+    # new_dict.write(str(undecidedDict))
+    # new_dict.close()
+
+    with open('BaseCases.txt', 'r') as inf:
+        mythDict = eval(inf.read())
+    inf.close()
+
+    key_list = list(mythDict.keys())
+    val_list = list(mythDict.values())
+    new_list = []
+    for i in range(len(key_list)):
+        new_list.append(key_list[i] + ' ' + val_list[i])
+        
+    print(new_list)
+    result = wanker(new_list, post_content)
+
+    return render_template('layouts/search.html', key_list=list(mythDict.keys()), val_list=list(mythDict.values()), len=len(result), search_result = result)
 
 
 @app.route('/admin')
 def admin():
-    return render_template('layouts/admin.html',  key_list=list(mythDict.keys()), val_list=list(mythDict.values()), len = len(mythDict))
+    with open('UndecidedCases.txt', 'r') as inf2:
+        undecidedDict = eval(inf2.read())
+    inf2.close()
+    return render_template('layouts/admin.html', key_list=list(undecidedDict.keys()), val_list=list(undecidedDict.values()), len=len(undecidedDict))
+
 
 @app.route('/submitExp', methods=['POST', 'GET'])
 def submit_exp():
-    explaination = request.form["exp"]
+    explanation = request.form["exp"]
     num = request.form["bdh"]
-    print(explaination)
+    print(explanation)
     print(num)
-    return render_template('layouts/admin.html',  key_list=list(mythDict.keys()), val_list=list(mythDict.values()), len = len(mythDict))
+    with open('BaseCases.txt', 'r') as inf:
+        mythDict = eval(inf.read())
+    inf.close()
+    with open('UndecidedCases.txt', 'r') as inf2:
+        undecidedDict = eval(inf2.read())
+    inf2.close()
+    unKey_list = list(undecidedDict.keys())
+    print(len(unKey_list))
+    mythDict[unKey_list[int(num) - 1]] = explanation
+    new_dict = open("BaseCases.txt", 'w')
+    new_dict.write(str(mythDict))
+    new_dict.close()
+    undecidedDict.pop(unKey_list[int(num) - 1])
+    new_dict = open("UndecidedCases.txt", 'w')
+    new_dict.write(str(undecidedDict))
+    new_dict.close()
+    return render_template('layouts/admin.html', key_list=list(undecidedDict.keys()), val_list=list(undecidedDict.values()), len=len(undecidedDict))
 
 
 @app.route('/')

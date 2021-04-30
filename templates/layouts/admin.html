@@ -7,10 +7,12 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="/static/layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
 <style>
 body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
 .fa-anchor,.fa-coffee {font-size:200px}
+.w3-third {color: #95103b;}
 textarea {
   width: 100%;
   height: 150px;
@@ -24,26 +26,40 @@ textarea {
 }
 </style>
 <body>
-
+  <div class="wrapper row0">
+    <header id="header" class="hoc clear"> 
+      <!-- ################################################################################################ -->
+      <div id="logo" class="one_quarter first">
+        <h1><a href="/templates/wavefire.html"><span>DMP</span>roject</a></h1>
+      </div>
+      <div class="three_quarter">
+        <ul class="nospace clear">
+          <li class="one_third first">
+            <div class="block clear"><a href="#"><i class="fas fa-phone"></i></a> <span><strong>Give us a call:</strong> +91 (123) 456 7890</span></div>
+          </li>
+          <li class="one_third">
+            <div class="block clear"><a href="#"><i class="fas fa-envelope"></i></a> <span><strong>Send us a mail:</strong> support@dmproject.com</span></div>
+          </li>
+          <li class="one_third">
+          </li>
+        </ul>
+      </div>
+      <!-- ################################################################################################ -->
+    </header>
+  </div>
 <!-- Navbar -->
-<div class="w3-top">
-  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
-
-    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
-    <a href="/about" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" >Link 1</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Link 2</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Link 3</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Link 4</a>
-  </div>
-
-  <!-- Navbar on small screens -->
-  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 4</a>
-  </div>
+<div class="wrapper row1">
+  <section class="hoc clear"> 
+    <!-- ################################################################################################ -->
+    <nav id="mainav">
+      <ul class="clear">
+        <li><a href="/">Home</a></li>
+        <li><a href="demo">Fact Checker</a></li>
+        <li><a href="gallery">Gallery</a></li>
+        <li  class="active"><a href="admin">Admin</a></li>
+      </ul>
+    </nav>
+</section>
 </div>
 
 <!-- Header -->
@@ -58,14 +74,15 @@ textarea {
 
       <form action="/submitExp" class="submit-exp" id="textform" method="post">
           <label for="exampleReviewText"></label>
-          <p name="idd">{{i+1}}</p>
+          <!-- <p name="idd">{{i+1}}</p> -->
           <textarea class="form-control" id="exampleReviewText" name="exp" rows="4" cols="50" placeholder="Write your explaination here...(Max 2000 characters)" maxlength="2000" style="margin: 0px; width: 518px; height: 235px;" required="required"></textarea>
-        <button type="submit" class="btn btn-primary" name="bdh" value="{{i+1}}">Submit</button>
+          <br>
+          <button type="submit" class="btn btn-primary" name="bdh" value="{{i+1}}">Submit</button>
       </form>
     </div>
 
     <div class="w3-third w3-center">
-      <i class="w3-padding-64 w3-text-red w3-margin-right"><span style='font-size:200px;'>&#9756;</span></i>
+      <i class="w3-padding-64  w3-margin-right"><span style='font-size:200px;'>&#9756;</span></i>
     </div>
   </div>
 </div>
@@ -74,7 +91,7 @@ textarea {
 <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
   <div class="w3-content">
     <div class="w3-third w3-center">
-      <i class="w3-padding-64 w3-text-red w3-margin-right"><span style='font-size:200px;'>&#9758;</span></i>
+      <i class="w3-padding-64  w3-margin-right"><span style='font-size:200px;'>&#9758;</span></i>
     </div>
 
     <div class="w3-twothird">
@@ -83,10 +100,11 @@ textarea {
 
       <form action="/submitExp" class="submit-exp" id="textform" method="post">
           <label for="exampleReviewText"></label>
-          <p name="idd">{{i+2}}</p>
+          <!-- <p name="idd">{{i+2}}</p> -->
 
           <textarea class="form-control" id="exampleReviewText" name="exp" rows="4" cols="50" placeholder="Write your explaination here...(Max 2000 characters)" maxlength="2000" style="margin: 0px; width: 518px; height: 235px;" required="required"></textarea>
-        <button type="submit" class="btn btn-primary" name= "bdh" value="{{i+2}}">Submit</button>
+          <br>
+          <button type="submit" class="btn btn-primary" name= "bdh" value="{{i+2}}">Submit</button>
       </form>
     </div>
   </div>
@@ -106,7 +124,7 @@ textarea {
     <i class="fa fa-twitter w3-hover-opacity"></i>
     <i class="fa fa-linkedin w3-hover-opacity"></i>
  </div>
- <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+ <p>A project for the Disaster Management course <a href="https://github.com/anushkawakankar/Disaster-Management-Project" target="_blank">Github</a></p>
 </footer>
 
 <script>
